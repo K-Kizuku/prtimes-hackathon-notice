@@ -1,3 +1,6 @@
-export default function PressLelease() {
-  return <div>PressLelease</div>;
+import PressReleaseRows from "~/components/PressReleaseRows";
+export default function Page() {
+  return <div>
+    <PressReleaseRows></PressReleaseRows>
+  </div>;
 }

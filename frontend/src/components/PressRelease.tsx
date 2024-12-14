@@ -1,17 +1,24 @@
+"use client"
 import { FC } from "react";
 
 type Props = {
   title: string;
-  subTile: string;
-  company: string;
+  subTitle: string;
+  companyName: string;
   imgURL: string;
 };
 
-const PressRelease: FC<Props> = ({ title, subTile, company, imgURL }) => {
+const PressRelease: FC<Props> = ({ title, subTitle, companyName, imgURL }) => {
   return (
-    <div>
-      <h1>{title}</h1>
-      <p>Press Release content goes here</p>
+    <div className="border-solid border-2 border-gray-500 p-4 flex flex-row gap-5 font-bold">
+      <div>
+        <img src={imgURL}></img>
+      </div>
+      <div>
+        <p className="text-lg text-neutral-100">{title}</p>
+        <p className="mt-3 text-neutral-100">{subTitle}</p>
+        <p className="text-neutral-100">{companyName}</p>
+      </div>
     </div>
   );
 };
