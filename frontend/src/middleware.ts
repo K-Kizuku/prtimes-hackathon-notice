@@ -2,16 +2,15 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // 認可サーバのエンドポイント
-const AUTH_SERVER_URL = "https://your-auth-server.com/verify-token";
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get("A")?.value;
+  const token = request.cookies.get("Authorization")?.value;
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const authResponse = await fetch(AUTH_SERVER_URL, {
+  const authResponse = await fetch("/api/auth", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
