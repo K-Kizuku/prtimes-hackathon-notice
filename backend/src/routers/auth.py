@@ -1,16 +1,16 @@
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
-from fastapi import Depends, APIRouter, HTTPException, status
+from src.controllers import (authenticate_user, create_access_token,
+                         get_current_user)
+from src.database import get_session
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from src.models import Token, User
 from sqlmodel import Session
 
-from database import get_session
-from models import User, Token
-from controllers import authenticate_user, create_access_token, get_current_user
-
-
 router = APIRouter(tags=["auth"])
+
 
 @router.post("/token")
 def route_login_for_access_token(
