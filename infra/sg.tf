@@ -44,17 +44,10 @@ resource "aws_security_group" "frontend_sg" {
     security_groups = [aws_security_group.lb_sg.id]
   }
 
-  ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.lb_sg.id]
-  }
-
   # バックエンドへアクセスする場合のegress設定
   egress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 8000
+    to_port     = 8000
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"] # VPC内アクセス許可
   }
@@ -76,8 +69,8 @@ resource "aws_security_group" "backend_sg" {
 
   # フロントエンドからのみ受信許可
   ingress {
-    from_port       = 8080
-    to_port         = 8080
+    from_port       = 8000
+    to_port         = 8000
     protocol        = "tcp"
     security_groups = [aws_security_group.frontend_sg.id]
   }

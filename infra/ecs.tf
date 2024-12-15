@@ -20,8 +20,7 @@ resource "aws_ecs_task_definition" "frontend_task" {
     "essential": true,
     "portMappings": [
       {
-        "containerPort": 3000,
-        "hostPort": 3000
+        "containerPort": 3000
       }
     ]
   }
@@ -38,8 +37,10 @@ resource "aws_ecs_service" "frontend_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_c.id]
-    security_groups = [aws_security_group.frontend_sg.id]
+    subnets          = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_c.id]
+    security_groups  = [aws_security_group.frontend_sg.id]
+    assign_public_ip = true
+
   }
 
   load_balancer {
@@ -76,8 +77,7 @@ resource "aws_ecs_task_definition" "backend_task" {
     "essential": true,
     "portMappings": [
       {
-        "containerPort": 8080,
-        "hostPort": 8080
+        "containerPort": 8000
       }
     ]
   }
