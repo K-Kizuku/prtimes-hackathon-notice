@@ -8,7 +8,7 @@ export const PressLeleaseForm = () => {
   return (
     <form action={dispatch} className="flex flex-col p-5">
       {pending && <p>送信中</p>}
-      <input className=" text-xl p-5 text-black" placeholder="リリースタイトル" type="text" name="title" />
+      <input className="text-xl p-5 text-black" placeholder="リリースタイトル" type="text" name="title" />
       <input className="p-5 text-black" placeholder="サブタイトル" type="text" name="subTitle" />
       <input className="p-5 text-black" placeholder="画像URL" type="text" name="imgURL" />
       <input className="p-5 text-black" placeholder="本文" type="textarea" name="description" />
