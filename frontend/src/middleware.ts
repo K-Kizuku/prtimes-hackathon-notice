@@ -6,26 +6,26 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("Authorization")?.value;
 
-  if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  //if (!token) {
+  //  return NextResponse.redirect(new URL("/login", request.url));
+  //}
 
-  const authResponse = await fetch("/api/auth", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ token }),
-  });
-
-  if (!authResponse.ok) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  const { role } = await authResponse.json();
-
+  //const authResponse = await fetch("/api/auth", {
+  //  method: "POST",
+  //  headers: {
+  //    "Content-Type": "application/json",
+  //  },
+  //  body: JSON.stringify({ token }),
+  //});
+  //
+  //if (!authResponse.ok) {
+  //  return NextResponse.redirect(new URL("/login", request.url));
+  //}
+  //
+  //const { role } = await authResponse.json();
+  //
   const url = request.nextUrl.clone();
-
+  const role = "media"
   if (role === "company") {
     if (url.pathname.startsWith("/company")) {
       return NextResponse.next();
