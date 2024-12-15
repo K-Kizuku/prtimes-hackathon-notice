@@ -1,10 +1,21 @@
 version: "3.8"
 
 services:
-  frontend:
+   frontend:
+     build:
+       context: ./frontend
+       dockerfile: ../docker/frontend/Dockerfile
+       target: runner
+     ports:
+       - "3000:3000"
+  backend:
     build:
-      context: ./frontend
-      dockerfile: ../docker/frontend/Dockerfile
-      target: runner
+      context: .
+      dockerfile: docker/backend/Dockerfile
     ports:
-      - "3000:3000"
+      - "8000:8000" 
+    environment:
+      - UVICORN_CMD=uvicorn src.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - ./backend/src:/app/src
+    restart: always

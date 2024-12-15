@@ -1,16 +1,14 @@
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
-from fastapi import Depends, APIRouter, HTTPException, status
+from src.cruds import get_user_by_email
+from src.database import get_session
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
-from sqlmodel import SQLModel, Session
-
-from database import get_session
-from cruds import get_user_by_email
-from models import User, Token, TokenData
-from utils import verify_password
-
+from src.models import Token, TokenData, User
+from sqlmodel import Session, SQLModel
+from src.utils import verify_password
 
 # to get a string like this run:
 # openssl rand -hex 32
@@ -20,6 +18,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 
 def authenticate_user(db: Session, email: str, password: str) -> User:
     not_found_exception = HTTPException(
@@ -48,9 +47,9 @@ def create_access_token(data: dict) -> str:
 
 
 def get_current_user(
-        token: Annotated[str, Depends(oauth2_scheme)],
-        db: Annotated[Session, Depends(get_session)],
-    ) -> User:
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Annotated[Session, Depends(get_session)],
+) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
