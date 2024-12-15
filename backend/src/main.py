@@ -11,7 +11,6 @@ from src.models import (Item, ItemCreate, ItemPublic, ItemUpdate, Match,
                         MatchCreate, MatchPublic, MatchUpdate, Topic,
                         TopicCreate, TopicPublic, TopicUpdate, User)
 from src.routers import auth, subscription, user
-from src.cruds import create_item, get_items, get_item, update_item, delete_item
 
 app = FastAPI()
 
@@ -31,19 +30,36 @@ def route_create_item(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Session = Depends(get_session),
 ):
-    return create_item(item, current_user)
+
+    id = uuid.uuid4()
+    user_id = current_user.id
+
+    db_item = Item(
+        title=item.title,
+        description=item.description,
+        image=item.image,
+        user_id=user_id,
+        id=id,
+    )
+
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item
 
 
 # Read All Items
 @app.get("/items/", response_model=list[ItemPublic])
 def route_read_items(session: Session = Depends(get_session)):
-    return get_items()
+    statement = select(Item)
+    results = session.exec(statement).all()
+    return results
 
 
 # Read Single Item by ID
 @app.get("/items/{item_id}", response_model=ItemPublic)
-def route_read_item(item_id: str, db: Session = Depends(get_session)):
-    item = get_item(db, item_id)
+def route_read_item(item_id: str, session: Session = Depends(get_session)):
+    item = session.get(Item, item_id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
     return item
@@ -55,13 +71,17 @@ def route_update_item(
     item_id: str,
     updated_item: ItemUpdate,
     current_user: Annotated[User, Depends(get_current_user)],
-    db: Session = Depends(get_session),
+    session: Session = Depends(get_session),
 ):
-    item = get_item(db, item_id)
+    item = session.get(Item, item_id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-
-    return update_item(db, item, update_item)
+    for key, value in updated_item.dict(exclude_unset=True).items():
+        setattr(item, key, value)
+    session.add(item)
+    session.commit()
+    session.refresh(item)
+    return item
 
 
 # Delete Item
@@ -69,12 +89,13 @@ def route_update_item(
 def route_delete_item(
     item_id: str,
     current_user: Annotated[User, Depends(get_current_user)],
-    db: Session = Depends(get_session),
+    session: Session = Depends(get_session),
 ):
-    item = get_item(db, item_id)
+    item = session.get(Item, item_id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    delete_item(db, item)
+    session.delete(item)
+    session.commit()
     return {"message": f"Item with ID {item_id} deleted successfully"}
 
 
