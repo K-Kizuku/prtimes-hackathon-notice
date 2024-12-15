@@ -1,3 +1,6 @@
+import { TopicForm } from "~/components/TopicForm";
 export default function Company() {
-  return <div>company</div>;
+  return <div>
+    <TopicForm></TopicForm>
+  </div>;
 }

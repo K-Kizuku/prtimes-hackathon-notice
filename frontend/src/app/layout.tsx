@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "~/components/Header";
 import AccountInfo from "~/components/AccountInfo";
 import getAccountInfo from "~/utils/getAccountInfo";
+import SubmitButton from "~/components/SubmitButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +33,12 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header>
+          <SubmitButton title="登録"></SubmitButton>
           <AccountInfo {...accountInfo} />
         </Header>
-        {children}
+        <div className="pt-32">
+          {children}
+        </div>
       </body>
     </html>
   );
