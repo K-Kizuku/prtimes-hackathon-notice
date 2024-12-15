@@ -1,7 +1,5 @@
-import { PressLeleaseForm } from "~/components/PressLeleaseForm";
+import PressReleaseSearch from "~/components/PressReleaseSearch";
 
 export default function Media() {
-  return <div className="container">
-    <PressLeleaseForm></PressLeleaseForm>
-  </div>;
-}
+  <PressReleaseSearch></PressReleaseSearch>
+};
