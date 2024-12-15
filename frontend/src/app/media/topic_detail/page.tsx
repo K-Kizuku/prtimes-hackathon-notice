@@ -7,7 +7,7 @@ const Topic = {
     companyName: "Tech Innovators Inc.",
     description: "我々の新しい製品は、効率を50%向上させる設計となっています。",
     imgURL: "https://via.placeholder.com/150",
-    // ここでプレスリリースのインスタンスを渡す方法が分からない
+    // ここでトピックのインスタンスを渡す方法が分からない
 };
 
 export default function Media() {
