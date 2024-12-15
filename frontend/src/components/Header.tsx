@@ -10,7 +10,7 @@ const Header: FC<Props> = ({ children }) => {
       <a href="#">
         <p className="text-4xl font-bold text-center leading-[3rem]">PR SEED</p>
       </a>
-      <div className="">{children}</div>
+      <div className="flex flex-row gap-10">{children}</div>
     </header>
   );
 };
