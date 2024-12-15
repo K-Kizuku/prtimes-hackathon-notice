@@ -8,6 +8,11 @@ export type PostTokenResponse = {
   token_type: string;
 };
 
+export type PostTokenRequest = {
+  username: string;
+  password: string;
+};
+
 export type User = {
   email: string;
   name: string;

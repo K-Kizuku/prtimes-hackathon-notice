@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { FC } from "react";
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 
 const PressRelease: FC<Props> = ({ title, subTitle, companyName, imgURL }) => {
   return (
-    <div className="border-solid border-2 border-gray-500 p-4 flex flex-row gap-5 font-bold">
+    <div className=" border-solid border-2 border-gray-500 p-4 flex flex-row gap-5 font-bold">
       <div>
-        <img src={imgURL}></img>
+        <img src={imgURL} />
       </div>
       <div>
         <p className="text-lg text-neutral-100">{title}</p>
